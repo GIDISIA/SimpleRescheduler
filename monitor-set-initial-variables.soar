@@ -1,0 +1,35 @@
+#If the flag set-initial-variables has been set to 1, propose the monitor-set-initial-variables operator
+
+sp {Scheduler*propose*monitor-set-initial-variables
+   (state <s> ^name Scheduler
+              ^calculations <c>)
+   (<c> ^set-initial-variables 1)
+-->
+   (<s> ^operator <op> + > =)
+   (<op> ^name monitor-set-initial-variables)
+}
+
+
+
+#If the monitor-set-initial-variables operator is selected, set the values of the initial variables to the default values
+
+sp {apply*monitor-set-initial-variables
+   (state <s> ^operator <op>
+              ^totTard <totTard>
+              ^calculations <c>
+              ^resource <r>
+              ^maxTard <maxTard>)
+   (<op> ^name monitor-set-initial-variables)
+   (<c> ^task-pending-calculations-set <tpc>
+        ^set-initial-variables <sv>)
+   (<r> ^tardiness <rt>
+        ^task <t>)
+   (<t> ^tardiness <task-tardiness>)
+-->
+   (<s> ^totTard 0 <totTard> -
+        ^maxTard 0 <maxTard> -)
+   (<r> ^tardiness 0 <rt> -)
+   (<t> ^tardiness 0 <task-tardiness> -)
+   (<c> ^task-pending-calculations-set 1 <tpc> -
+        ^set-initial-variables 0 <sv> -)
+}

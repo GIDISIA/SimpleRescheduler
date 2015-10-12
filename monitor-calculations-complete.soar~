@@ -1,0 +1,59 @@
+#TODO: recalculate totalWIP
+#^prevTotalWIP <totalWIP>
+#^totalWIP 0 -
+#TODO: recalculate maxTard
+
+
+#If pending-general-calculations is 1 and every task has its pending calculations set to 0, propose the monitor-calculations-complete operator
+
+sp {Scheduler*propose*monitor-calculations-complete
+   (state <s> ^name Scheduler
+              ^resource <r>
+              ^cantResource <cr>
+              ^calculations <c>)
+   (<c> ^pending-general-calculations 1
+        ^task-pending-calculations-set 1
+        ^current-resource-calculation > <cr>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name monitor-calculations-complete)
+}
+
+#If monitor-calculations-complete is selected, set the value of pending-general-calculations to 0 and the value of
+#individual-tardiness-calculations to 0. Also calculates the value of avgTard.
+
+sp {Scheduler*apply*monitor-calculations-complete
+   (state <s> ^operator <op>
+              ^calculations <c>
+              ^totTard <totTard>
+              ^cantTask <cantTask>
+              ^avgTard <avgTard>
+              ^prevTotTard <prevTT>
+              ^initTardiness <initTard>
+              ^reward-link <r>
+              ^maxTard <maxTard>
+              ^totalWIP <totalWIP>
+              ^initTotRatio <itt>
+              ^avgMaxRatio <amr>
+              ^tardWIPRatio <twr>
+)
+   (<c> ^pending-general-calculations <pgc>
+        ^current-resource-calculation <crc>
+        ^task-pending-calculations-set <tpc>
+        ^step <step>)
+   (<op> ^name monitor-calculations-complete)
+-->
+   (<s> ^avgTard (/ <totTard> <cantTask>) <avgTard> -
+        ^prevTotTard <totTard> <prevTT> -
+        ^avgMaxRatio (* (/ <avgTard> <maxTard>) 100) <amr> -
+        ^initTotRatio (* (/ <initTard> <totTard>) 100) <itt> -
+        ^tardWIPRatio (* (/ <totTard> <totalWIP>) 100) <twr> -
+)
+   (<c> ^pending-general-calculations 0 <pgc> -
+        ^current-resource-calculation 1 <crc> -
+        ^task-pending-calculations-set 0 <tpc> -
+        ^step (+ 1 <step>) <step> -)
+   (<r> ^reward.value (- <initTard> <totTard>))
+   (write  (crlf) |Tardiness: |<totTard> )
+   (write  (crlf) |Step: | <step> )
+}

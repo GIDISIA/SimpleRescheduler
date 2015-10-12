@@ -1,0 +1,402 @@
+sp {propose*initialize-Scheduler
+   (state <s> ^superstate nil
+             -^name)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name initialize-Scheduler)
+}
+
+sp {apply*initialize-Scheduler
+   (state <s> ^operator <op>)
+   (<op> ^name initialize-Scheduler)
+-->
+   (<s> ^name Scheduler
+        ^calculations <c>
+        ^avgTard 2.5
+        ^cantTask 16
+        ^initTardiness 28.5
+        ^maxTard 12.5
+        ^resource <r1>
+        ^resource <r2>
+        ^resource <r3>
+        ^totTard 40
+        ^totalWIP 46.83
+        ^cantResource 3
+        ^prevTotTard 28.5
+        ^initTotRatio 71.25
+        ^initTotRatioScale 4
+        ^avgMaxRatio 20
+        ^avgMaxRatioScale 2
+        ^tardWIPRatio 85.41533
+        ^tardWIPRatioScale 4
+        ^relativeTardFocal 0
+        ^relativeTardFocalScale 1
+        ^relativeTardAuxiliar 0
+        ^relativeTardAuxiliarScale 1
+        ^initTotRatioCalculateScale 0
+        ^avgMaxRatioCalculateScale 0
+        ^tardWIPRatioCalculateScale 0
+)
+   
+   (<c> ^current-resource-calculation 1
+        ^pending-general-calculations 0
+        ^task-pending-calculations-set 0
+        ^set-initial-variables 0
+        ^step 1)
+   
+   (<r1> ^name Resource1
+         ^canProcess A
+         ^canProcess B
+         ^tardiness 17
+         ^order 1
+         ^processingRate <pR11>
+         ^processingRate <pR12>
+         ^task <t11>
+         ^task <t1>
+         ^task <t3>
+         ^task <t2>
+         ^task <t10>
+         ^task <t0-r1>
+         ^task <tf-r1>
+         ^type extruder)
+   
+   (<r2> ^name Resource2
+         ^canProcess A
+         ^canProcess C
+         ^canProcess D
+         ^tardiness 0
+         ^order 2
+         ^processingRate <pR21>
+         ^processingRate <pR22>
+         ^processingRate <pR23>
+         ^task <t16>
+         ^task <t6>
+         ^task <t12>
+         ^task <t13>
+         ^task <t0-r2>
+         ^task <tf-r2>
+         ^type extruder)
+   
+   (<r3> ^name Resource3
+         ^canProcess A
+         ^canProcess B
+         ^canProcess C
+         ^canProcess D
+         ^tardiness 40
+         ^order 3
+         ^processingRate <pR31>
+         ^processingRate <pR32>
+         ^processingRate <pR33>
+         ^processingRate <pR34>
+         ^task <t5>
+         ^task <t7>
+         ^task <t9>
+         ^task <t14>
+         ^task <t4>         
+         ^task <t15>
+         ^task <t8>         
+         ^task <t0-r3>
+         ^task <tf-r3>
+         ^type extruder)
+   
+   (<pR11> ^productType A ^rate 100)
+   (<pR12> ^productType B ^rate 200)
+
+   (<pR21> ^productType A ^rate 150)
+   (<pR22> ^productType C ^rate 150)
+   (<pR23> ^productType D ^rate 300)
+   
+   (<pR31> ^productType A ^rate 100)
+   (<pR32> ^productType B ^rate 150)
+   (<pR33> ^productType C ^rate 100)
+   (<pR34> ^productType D ^rate 200)
+   
+   (<t0-r1> ^name Task0
+            ^productType 0
+            ^pending-calculations 0
+            ^previous 0
+            ^next Task11
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+
+   (<t11> ^name Task11
+            ^productType B
+            ^pending-calculations 0
+            ^previous Task0
+            ^next Task1
+            ^quantity 300
+            ^duration 1.5
+            ^start 0
+            ^finish 1.5
+            ^tardiness 0
+            ^dueDate 19
+            ^isFocal 0)
+   
+   (<t1> ^name Task1
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task11
+            ^next Task3
+            ^quantity 500
+            ^duration 5
+            ^start 1.5
+            ^finish 6.5
+            ^tardiness 0
+            ^dueDate 3
+            ^isFocal 0)
+
+   (<t3> ^name Task3
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task1
+            ^next Task2
+            ^quantity 400
+            ^duration 4
+            ^start 6.5
+            ^finish 10.5
+            ^tardiness 0
+            ^dueDate 12
+            ^isFocal 0)
+   
+   (<t2> ^name Task2
+            ^productType B
+            ^pending-calculations 0
+            ^previous Task3
+            ^next Task10
+            ^quantity 300
+            ^duration 1.5
+            ^start 10.5
+            ^finish 12
+            ^tardiness 8
+            ^dueDate 7
+            ^isFocal 0)
+
+    (<t10> ^name Task10
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task2
+            ^next TaskFinal
+            ^quantity 700
+            ^duration 7
+            ^start 12
+            ^finish 19
+            ^tardiness 4
+            ^dueDate 18
+            ^isFocal 0)
+   
+    (<tf-r1> ^name TaskFinal
+            ^productType 0
+            ^pending-calculations 0
+            ^previous Task10
+            ^next 0
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+
+   
+   (<t0-r2> ^name Task0
+            ^productType 0
+            ^pending-calculations 0
+            ^previous 0
+            ^next Task16
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+   
+   (<t16> ^name Task16 
+            ^productType C
+            ^pending-calculations 0
+            ^previous Task0
+            ^next Task6
+            ^quantity 400
+            ^duration 2.67
+            ^start 0
+            ^finish 2.67
+            ^tardiness 0
+            ^dueDate 20
+            ^isFocal 0)   
+   
+    (<t6> ^name Task6
+            ^productType C
+            ^pending-calculations 0
+            ^previous Task16
+            ^next Task12
+            ^quantity 300
+            ^duration 2
+            ^start 2.67
+            ^finish 4.67
+            ^tardiness 0
+            ^dueDate 10
+            ^isFocal 0)   
+   
+   (<t12> ^name Task12
+            ^productType D
+            ^pending-calculations 0
+            ^previous Task6
+            ^next Task13
+            ^quantity 400
+            ^duration 1.33
+            ^start 4.67
+            ^finish 6
+            ^tardiness 0
+            ^dueDate 15
+            ^isFocal 0)  
+   
+   (<t13> ^name Task13
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task12
+            ^next TaskFinal
+            ^quantity 200
+            ^duration 1.33
+            ^start 6
+            ^finish 7.33
+            ^tardiness 0
+            ^dueDate 13
+            ^isFocal 0) 
+   
+   (<tf-r2> ^name TaskFinal
+            ^productType 0
+            ^pending-calculations 0
+            ^previous Task13
+            ^next 0
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+
+   
+   (<t0-r3> ^name Task0
+            ^productType 0
+            ^pending-calculations 0
+            ^previous 0
+            ^next Task5
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+   
+   (<t5> ^name Task5
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task0
+            ^next Task7
+            ^quantity 300
+            ^duration 3
+            ^start 0
+            ^finish 3
+            ^tardiness 0
+            ^dueDate 4
+            ^isFocal 1)   
+   
+   (<t7> ^name Task7
+            ^productType C
+            ^pending-calculations 0
+            ^previous Task5
+            ^next Task9
+            ^quantity 900
+            ^duration 9
+            ^start 3
+            ^finish 12
+            ^tardiness 5
+            ^dueDate 7
+            ^isFocal 0)   
+ 
+   (<t9> ^name Task9
+            ^productType B
+            ^pending-calculations 0
+            ^previous Task7
+            ^next Task14
+            ^quantity 300
+            ^duration 2
+            ^start 12
+            ^finish 14
+            ^tardiness 1
+            ^dueDate 14
+            ^isFocal 0)   
+   
+   (<t14> ^name Task14
+            ^productType C
+            ^pending-calculations 0
+            ^previous Task9
+            ^next Task4
+            ^quantity 100
+            ^duration 1
+            ^start 14
+            ^finish 15
+            ^tardiness 0
+            ^dueDate 15
+            ^isFocal 0)   
+   
+   (<t4> ^name Task4
+            ^productType D
+            ^pending-calculations 0
+            ^previous Task14
+            ^next Task15
+            ^quantity 300
+            ^duration 1.5
+            ^start 15
+            ^finish 16.5
+            ^tardiness 15
+            ^dueDate 4
+            ^isFocal 0)
+   
+    (<t15> ^name Task15
+            ^productType C
+            ^pending-calculations 0
+            ^previous Task4
+            ^next Task8
+            ^quantity 200
+            ^duration 2
+            ^start 16.5
+            ^finish 18.5
+            ^tardiness 2.5
+            ^dueDate 16
+            ^isFocal 0)   
+
+   (<t8> ^name Task8
+            ^productType A
+            ^pending-calculations 0
+            ^previous Task15
+            ^next TaskFinal
+            ^quantity 200
+            ^duration 2
+            ^start 18.5
+            ^finish 20.5
+            ^tardiness 10.5
+            ^dueDate 10
+            ^isFocal 0)   
+   
+   (<tf-r3> ^name TaskFinal
+            ^productType 0
+            ^pending-calculations 0
+            ^previous Task8
+            ^next 0
+            ^quantity 0
+            ^duration 0
+            ^start 0
+            ^finish 0
+            ^tardiness 0
+            ^dueDate 0
+            ^isFocal 0)
+}
+

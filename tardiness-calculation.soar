@@ -1,0 +1,44 @@
+#If the general calculations are pending and individual tasks haven't their calculations (start / finish / etc.) done,
+#propose the task-attributes-calculation operator.
+
+sp {Scheduler*propose*tardiness-calculation
+   (state <s> ^name Scheduler
+              ^calculations <c>
+              ^resource <r>)
+   (<c> ^pending-general-calculations 1
+        ^task-pending-calculations-set 1)
+   (<r> ^task <t>)
+   (<t> ^pending-calculations 1)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name tardiness-calculation)
+}
+
+#If the task-attributes-calculation operator is selected, it calculates the task tardiness, and it adds it to the resource tardiness.
+
+sp {Scheduler*apply*tardiness-calculation
+   (state <s> ^operator <op>
+              ^resource <r>
+              ^calculations <c>)
+   (<op> ^name tardiness-calculation)
+   (<r> ^task <t> {<> <t> <prevt>}
+        ^tardiness <resource-tardiness>
+        ^order <order>)
+   (<c> ^current-resource-calculation <crc> = <order>)
+   (<t> ^dueDate <duedate>
+        ^duration <duration>
+        ^start <start>
+        ^finish <finish>
+        ^previous <tprev>
+        ^tardiness <task-tardiness>
+        ^pending-calculations 1)
+   (<prevt> ^name <tprev>
+            ^finish <prevtfinish>
+            ^pending-calculations 0)
+-->
+   (<t> ^start <prevtfinish> <start> -
+        ^finish (+ <prevtfinish> <duration>) <finish> -
+        ^tardiness (- (+ <prevtfinish> <duration>) <duedate>) <task-tardiness> -
+        ^pending-calculations 0 1 -)
+   (<r> ^tardiness (+ <resource-tardiness> (- (+ <prevtfinish> <duration>) <duedate>)) <resource-tardiness> -)
+}

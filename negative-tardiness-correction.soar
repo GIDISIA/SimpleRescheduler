@@ -1,0 +1,34 @@
+#If a task with negative tardiness is detected in the current resource,
+#propose the negative-tardiness-correction as the best operator
+
+sp {Scheduler*propose*negative-tardiness-correction
+   (state <s> ^name Scheduler
+              ^resource <r>
+              ^calculations <c>)
+   (<r> ^task <t>
+        ^order <order>)
+   (<t> ^name <task-name>
+        ^tardiness <tt> < 0)
+   (<c> ^current-resource-calculation <crc> = <order>)
+-->
+   (<s> ^operator <op> + > =)
+   (<op> ^name negative-tardiness-correction
+         ^task <task-name>)
+}
+
+#If the negative-tardiness-correction operator is selected, set the tardiness value of the implied tasks to 0
+#and reflect the changes on the resource tardiness value.
+
+sp {apply*negative-tardiness-correction
+   (state <s> ^operator <op>
+              ^resource <r>)
+   (<op> ^name negative-tardiness-correction
+         ^task <task-name>)
+   (<r> ^task <t>
+        ^tardiness <resource-tardiness>)
+   (<t> ^name <task-name>
+        ^tardiness <task-tardiness>)
+-->
+   (<r> ^tardiness (- <resource-tardiness> <task-tardiness>) <resource-tardiness> -)
+   (<t> ^tardiness 0 <task-tardiness> -)
+}
