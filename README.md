@@ -4,4 +4,4 @@ This repository contains the Soar implementation of Case Study [Barsce, Palombar
 
 The code can be executed using the Soar debugger and loading the productions in the Scheduler.soar file.
 
-This code is no longer manteined. Last updated: 10/2013
+This code is no longer maintained. Last updated: 10/2013
