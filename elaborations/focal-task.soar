@@ -1,6 +1,0 @@
-sp {scheduler*elaborate*focalTask
-   (state <s> ^resource.task <task>)
-   (<task> ^isFocal 1)
--->
-   (<s> ^focalTask <task>)
-}
