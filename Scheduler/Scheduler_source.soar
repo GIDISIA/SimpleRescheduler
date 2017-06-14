@@ -1,0 +1,25 @@
+source _firstload.soar
+pushd all
+source all_source.soar
+popd
+pushd elaborations
+source elaborations_source.soar
+popd
+source down-left-jump.soar
+source down-left-swap.soar
+source down-right-jump.soar
+source down-right-swap.soar
+source initialize-Scheduler.soar
+source monitor-calculations-complete.soar
+source monitor-max-tard.soar
+source monitor-set-initial-variables.soar
+source monitor-task-pending-calculations.soar
+source move-left.soar
+source move-right.soar
+source negative-tardiness-correction.soar
+source tardiness-calculation.soar
+source total-tardiness-calculation.soar
+source up-left-jump.soar
+source up-left-swap.soar
+source up-right-jump.soar
+source up-right-swap.soar

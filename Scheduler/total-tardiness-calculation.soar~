@@ -1,0 +1,64 @@
+#If both the monitor-calculations-complete and total-tardiness-calculation are proposed, always prefer the second
+#(because calculations can never be completed if the second operator is proposed)
+
+sp {Scheduler*compare*total-tardiness-calculation-vs-monitor-calculations-complete
+   (state <s> ^name Scheduler
+              ^operator <op1> +
+                        <op2> +)
+   (<op1> ^name total-tardiness-calculation)
+   (<op2> ^name monitor-calculations-complete)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+
+
+#If the resource tardiness has been calculated, always do the total-tardiness-calculation before trying to do another
+#resource tardiness-calculation (otherwise, inconsistencies may ocurr).
+
+sp {Scheduler*compare*total-tardiness-calculation-vs-next-tardiness-calculation
+   (state <s> ^name Scheduler
+              ^operator <op1> +
+                        <op2> +)
+   (<op1> ^name total-tardiness-calculation)
+   (<op2> ^name tardiness-calculation)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
+
+
+
+
+#If all the tasks of the next resource pending to be calculated has its pending-calculations set to 0 (after being calculated),
+#add the resource calculated tardiness to the total tardiness
+
+sp {Scheduler*propose*total-tardiness-calculation
+   (state <s> ^name Scheduler
+              ^resource <r>
+              ^calculations <c>)
+   (<c> ^current-resource-calculation <crc>
+        ^task-pending-calculations-set 1)
+   (<r> ^order <ro> = <crc>)
+   - (<r> ^task.pending-calculations 1)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name total-tardiness-calculation
+         ^resource <r>)
+}
+
+
+#If the total-tardiness-calculation operator is selected, add the resource tardiness to the total tardiness and add 1 to the
+#current resource calculation
+
+sp {Scheduler*apply*total-tardiness-calculation
+   (state <s> ^operator <op>
+              ^calculations <c>
+              ^totTard <tt>)
+   (<op> ^name total-tardiness-calculation
+         ^resource <r>)
+   (<c> ^current-resource-calculation <crc>)
+   (<r> ^tardiness <rt>)
+-->
+   (<s> ^totTard (+ <rt> <tt>) <tt> -)
+   (<c> ^current-resource-calculation (+ <crc> 1) <crc> -)
+}

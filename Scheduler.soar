@@ -1,0 +1,3 @@
+pushd Scheduler
+source Scheduler_source.soar
+popd

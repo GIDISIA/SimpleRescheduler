@@ -1,0 +1,77 @@
+sp {Scheduler*propose*down-right-jump
+   (state <s> ^name Scheduler
+              ^calculations.pending-general-calculations 0
+              ^resource <r1> {<> <r1> <r2>})
+   (<r1> ^order <order1>)
+   (<r2> ^order <order2> > <order1>)
+   (<r1> ^task <t1>)
+   (<r2> ^task <t2>)
+   (<t1> ^start <startT1>)
+   (<t2> ^start <startT2> > <startT1>)
+   (<t1> ^isFocal 1)
+  
+   -{(<t1> ^next TaskFinal)
+     (<t1> ^previous Task0)}
+  
+   (<t1> ^name <namet1>)
+   (<t2> ^name <namet2>)
+   (<t2> ^name <> Task0)
+   (<t2> ^name <> TaskFinal)
+   (<t1> ^productType <product>)
+   (<r2> ^canProcess <product>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name down-right-jump
+         ^focalTask <namet1>
+         ^auxTask <namet2>)
+}
+
+sp {Scheduler*apply*down-right-jump
+   (state <s> ^name Scheduler
+              ^operator <op>
+               ^calculations <c>)
+   (<c> ^pending-general-calculations <pgc>) 
+   (<op> ^name down-right-jump 
+         ^focalTask <nametFocal>
+         ^auxTask <nametAux>)
+   (<s> ^resource <r1> {<> <r1> <r2>})
+   (<r1> ^task <tFocal> {<> <tFocal> <tPrevFocal>}
+                        {<> <tPrevFocal> <> <tFocal> <tPosFocal>})
+   (<r2> ^task <tAux> {<> <tAux> <tPosAux>}
+         ^processingRate <procRate>)
+   (<tFocal> ^name <nametFocal>
+             ^quantity <quantity>
+             ^duration <duration>
+             ^productType <prodType>
+             ^previous <prevTFocal>
+             ^next <nexttFocal>)
+   (<procRate> ^rate <rater2>
+               ^productType <prodType>)
+   (<tAux> ^name <nametAux>
+           ^previous <prevtAux>
+           ^next <nexttAux>)
+   (<tPrevFocal> ^name <nametPrevFocal>
+                 ^next <nametFocal>)
+   (<tPosFocal>   ^name <nametPosFocal>
+                  ^previous <nametFocal>)
+   (<tPosAux> ^name <nametPosAux>
+              ^previous <nametAux>)
+-->
+   (<tFocal> ^previous <nametAux> <prevTFocal> -
+         ^next <nametPosAux> <nexttFocal> -)
+   
+   (<tAux> ^next <nametFocal> <nexttAux> -)
+   
+   (<tPosAux> ^previous <nametFocal> <nametAux> -)
+   
+   (<tPosFocal> ^previous <nametPrevFocal> <nametFocal> -)
+   
+   (<tPrevFocal> ^next <nametPosFocal> <nametFocal> -)
+   
+   (<tFocal> ^duration (/ <quantity> <rater2>) <duration> -)
+   
+   (<r2> ^task <tFocal>)
+   (<r1> ^task <tFocal> -)
+   
+   (<c> ^pending-general-calculations 1 <pgc> -)
+}

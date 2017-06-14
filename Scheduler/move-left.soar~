@@ -1,0 +1,48 @@
+sp {Scheduler*propose*move-left
+   (state <s> ^name Scheduler
+              ^calculations.pending-general-calculations 0
+              ^resource <r1>)
+   (<r1> ^task <t1> {<> <t1> <t2>})
+   (<t1> ^name <namet1>)
+   (<t2> ^name <namet2>
+         ^name <> Task0)
+   (<t1> ^previous <namet2>)
+   (<t1> ^isFocal 1)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name move-left
+         ^focalTask <namet1>
+         ^auxTask <namet2>)
+}
+
+sp {Scheduler*apply*move-left
+   (state <s> ^name Scheduler
+              ^operator <op>
+              ^calculations <c>
+              ^resource <r1>)
+   (<c> ^pending-general-calculations <pgc>)
+   (<op> ^name move-left
+         ^focalTask <nametFocal>
+         ^auxTask <nametAux>)
+   (<r1> ^task <tFocal> {<> <tFocal> <tAux>}
+                        {<> <tAux> <> <tFocal> <tPrevAux>}
+                        {<> <tAux> <> <tFocal> <> <tPrevAux> <tPosFocal>})
+   (<tFocal> ^name <nametFocal>
+         ^previous <prevt1>
+         ^next <nextt1>)
+   (<tAux> ^name <nametAux>
+            ^previous <prevt2>
+            ^next <nextt2>)
+   (<tPrevAux> ^name <nametPrevAux>
+            ^next <nametAux>)
+   (<tPosFocal> ^name <nametPosFocal>
+            ^previous <nametFocal>)
+-->
+   (<tFocal> ^previous <prevt2> <prevt1> -
+               ^next <nametAux> <nextt1> -)
+      (<tAux> ^previous <nametFocal> <prevt2> -
+               ^next <nextt1> <nextt2> -)
+      (<tPrevAux> ^next <nametFocal> <nametAux> -)
+      (<tPosFocal> ^previous <nametAux> <nametFocal> -)
+   (<c> ^pending-general-calculations 1 <pgc> -)
+}

@@ -1,0 +1,25 @@
+#sp {P11*one-block-in-desired-position
+#   (state <s> ^name blocks-world
+#              ^reward-link <r>
+#              ^inplace-object)
+#-->
+#   (<r> ^reward.value .02)}
+
+
+sp {Scheduler*rl*rules
+   :template
+   (state <s> ^name Scheduler
+              ^initTotRatioScale <itt>
+              ^avgMaxRatioScale <amr>
+              ^tardWIPRatioScale <twr>
+              ^relativeTardFocalScale <rtfs>
+              ^relativeTardAuxiliarScale <rtas>
+
+              
+              ^operator <o> +)
+   
+         (<o>  ^name <opName>
+         ^focalTask <nametFocal>
+         ^auxTask <nametAux>)
+-->
+   (<s> ^operator <o> = 0)}

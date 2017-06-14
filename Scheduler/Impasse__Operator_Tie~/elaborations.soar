@@ -1,0 +1,11 @@
+#If the tardiness and total-tardiness calculation is selected, set tardiness better than total-tardiness
+
+sp {Scheduler*compare*tardiness-calculation
+   (state <s> ^name Scheduler
+              ^operator <op1> +
+                        <op2> +)
+   (<op1> ^name tardiness-calculation)
+   (<op2> ^name total-tardiness-calculation)
+-->
+   (<s> ^operator <op1> > <op2>)
+}
